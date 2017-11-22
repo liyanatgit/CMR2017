@@ -2927,7 +2927,54 @@
          }
       ]
    },
-   {  },
+   {  
+      "no":"62",
+      "order":"42",
+      "name":"新三乡跑友会",
+      "result":"03:49:40",
+      "members":[  
+         {  
+            "no":"1",
+            "duration":"00:28:25",
+            "pace":"06:03",
+            "adjusted-pace":"06:17",
+            "gender":"F",
+            "memo":""
+         },
+         {  
+            "no":"2",
+            "duration":"00:56:30",
+            "pace":"06:01",
+            "adjusted-pace":"06:01",
+            "gender":"F",
+            "memo":""
+         },
+         {  
+            "no":"3",
+            "duration":"00:54:25",
+            "pace":"05:47",
+            "adjusted-pace":"05:47",
+            "gender":"M",
+            "memo":""
+         },
+         {  
+            "no":"4",
+            "duration":"00:45:58",
+            "pace":"04:53",
+            "adjusted-pace":"04:53",
+            "gender":"M",
+            "memo":""
+         },
+         {  
+            "no":"5",
+            "duration":"00:44:22",
+            "pace":"04:43",
+            "adjusted-pace":"04:43",
+            "gender":"M",
+            "memo":""
+         }
+      ]
+   },
    {  
       "no":"63",
       "order":"14",
