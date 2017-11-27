@@ -248,7 +248,7 @@ function receiveData(records) {
   d3.select('.btn-play').on('click', playOrStepby);
   d3.select('.btn-stepby').on('click', playOrStepby);
   
-  d3.select('h1').on('click', function() {
+  d3.select('.fixed').on('click', function() {
     d3.select('#infographics-container').node().parentNode.scrollTop = 0;
   });
   
