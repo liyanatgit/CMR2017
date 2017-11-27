@@ -179,7 +179,8 @@ function receiveData(records) {
     var rank = bar.insert('g', ':first-child')
             .attr('class', 'rank')
             .classed('marked', d => +d.no === markedNo)
-            .attr('transform', 'translate(0, -15)');
+            .attr('transform', 'translate(0, -15)')
+            .on('click', pinMe);
     
     rank.append('rect')
              .attr('width', 33)
@@ -252,7 +253,6 @@ function receiveData(records) {
     d3.select('#infographics-container').node().parentNode.scrollTop = 0;
   });
   
-  svgTeams.selectAll('.rank').on('click', pinMe);
 }
 
 function pinMe() {
@@ -301,7 +301,7 @@ var timers = [];
 // scale: convert time value in second to width of bar
 function run(arr, bar, upto, scale) {
     arr.sort((a, b)=> mx(a._total[upto]) -  mx(b._total[upto]));
-    var factor = upto > 0 ? 4 : 2; factor = 12;
+    var factor = upto > 0 ? 4 : 2; 
     var func = {
       step: d => d._step[upto] / factor,
       gap:  function(d) {
