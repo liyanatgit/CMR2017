@@ -139,7 +139,6 @@ function receiveData(records) {
   
   var upto = 0, bar;
   var scale = (svgTeams.node().getBoundingClientRect().width - 40) / MAX;
-  var markedNo = -1;
 
   d3.select('.legend').selectAll('div')
       .data(GRADE_COLOR)
@@ -201,6 +200,7 @@ function receiveData(records) {
   _init();
   
   function playOrStepby() {
+    d3.event.stopPropagation();
     var sel = d3.select(this);
     if (!stepByStep) {
       if (sel.classed('btn-stepby')) {
@@ -208,7 +208,6 @@ function receiveData(records) {
         timers.forEach(v => clearTimeout(v));
         upto = g_upto + 0;
         timers = [];
-        return;
       }
     } else {
       if (sel.classed('btn-play')) {
@@ -216,7 +215,7 @@ function receiveData(records) {
         stepByStep = false;
       }      
     }
-    if (upto > COUNT_OF_MEMBERS) {
+    if (upto >= COUNT_OF_MEMBERS) {
       upto = -1;
     }
     if (!stepByStep || upto === -1) {
@@ -228,6 +227,7 @@ function receiveData(records) {
       bar.select('.result').interrupt();
       bar.select('.rank').interrupt();
       _init();
+      showMarked.call(svgTeams.node());
       upto = 0;
     } else {
       if (upto === -1) {
@@ -267,6 +267,25 @@ function pinMe() {
     }
 }
 
+function showMarked() {
+  var marked = d3.select(this).select('.rank.marked').node();
+  if (marked != null) {
+    var scroller = container.node().parentNode, 
+        top = d3.select('.fixed').node().getBoundingClientRect(),
+        r   = marked.getBoundingClientRect(),
+        p   = r.top - top.height;
+    
+    if (p < 0) {
+      scroller.scrollTop += p;
+    } else {
+      p = scroller.clientHeight - r.top - r.height;
+      if (p < 0) {
+        scroller.scrollTop -= p;
+      }
+    }
+  } 
+}
+
 // return key of record = team no.
 function key(d) {
   return d.no;
@@ -282,7 +301,7 @@ var timers = [];
 // scale: convert time value in second to width of bar
 function run(arr, bar, upto, scale) {
     arr.sort((a, b)=> mx(a._total[upto]) -  mx(b._total[upto]));
-    var factor = upto > 0 ? 4 : 2;
+    var factor = upto > 0 ? 4 : 2; factor = 12;
     var func = {
       step: d => d._step[upto] / factor,
       gap:  function(d) {
@@ -301,26 +320,13 @@ function run(arr, bar, upto, scale) {
     }, 0);
     max /= factor;
   
-//     console.log('upto:' + upto);
-//     console.log('step:' + to_time(max * factor));
   
     bar = svgTeams.selectAll('g').data(arr, key);
     bar.transition()
          .delay(max)
          .duration(400)
          .attr('transform', (d,i) => 'translate(0, ' + (i * 28 + 20) + ')')
-         .on('end', function() {
-             var marked = d3.select(this).select('.rank.marked').node();
-             if (marked != null) {
-               marked.scrollIntoView();
-               var top = d3.select('.fixed').node().getBoundingClientRect();
-               top = top.top + top.height;
-               if (marked.scrollTop < top) {
-                 var scroller = d3.select('#infographics-container').node().parentNode;
-                 scroller.scrollTop -= top;
-               }
-             }
-         });
+         .on('end', showMarked);
     
     svgTeams.selectAll('.rank').on('click', pinMe);
   
@@ -335,7 +341,7 @@ function run(arr, bar, upto, scale) {
          .delay(func.gap)
          .duration(func.step)
          .ease(d3.easeLinear)
-         .attr("width", d => (d._step[upto] || 0)* scale);
+         .attr("width", d => (d._step[upto] || 0) * scale);
   
     bar.select('.result')
          .attr('fill', '#38F')
@@ -371,8 +377,9 @@ function run(arr, bar, upto, scale) {
      } 
 }
 
-var div = d3.select("#infographics-container"),
-      svgTeams = d3.select('#svg-teams');
-var g_upto = -1;
+var container = d3.select("#infographics-container"),
+    svgTeams  = d3.select('#svg-teams'),
+    markedNo  = -1,
+    g_upto    = -1;
 
 d3.json('data.json', receiveData);
