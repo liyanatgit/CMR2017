@@ -1,11 +1,11 @@
 CACHE MANIFEST
-# 2017/11/20 14:11:05
+# 2017/11/27 16:00:00
 
 
 CACHE:
 https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js
-https://code.jquery.com/jquery-3.1.0.js
 data.json
+player.js
 
 NETWORK:
 *
