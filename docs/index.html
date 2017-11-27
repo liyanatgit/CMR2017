@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html manifest="app.manifest">
+<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=800">
-  <title>An Overview on 2017 TCMC Marathon Relay</title>
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
 </head>
 <body>
   
   <div id="infographics-container">
-    <h1 class="title">An Overview on TCMC 2017 Marathon Relay</h1>
+    <div class="fixed">
+      <h1>Unofficial: 2017 Chinese Marathon Relay</h1>
+      <a class="desc" href="https://goo.gl/maps/5rCe9Cu4pu32">2017/11/12 Saiko Toda, Saitama, Japan</a>
+      <h2>Team Result Ranking</h2>
+      <div class="legend"></div>
+      <div class="tools">
+        <button class="btn-play">Auto Play</button>
+        <button class="btn-stepby">Manual Play</button>
+      </div>
+    </div>
+    <svg id="svg-teams">
+    </svg>
   </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-<script type="javascript">
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+  <script src="player.js"></script>
 </body>
 </html>
