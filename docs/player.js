@@ -252,7 +252,10 @@ function receiveData(records) {
     d3.select('#infographics-container').node().parentNode.scrollTop = 0;
   });
   
-  d3.selectAll('.rank').on('click', function() {
+  svgTeams.selectAll('.rank').on('click', pinMe);
+}
+
+function pinMe() {
     var sel = d3.select(this);
     if (sel.classed('marked')) {
       sel.classed('marked', false);
@@ -262,7 +265,6 @@ function receiveData(records) {
       sel.classed('marked', true);
       markedNo = +d3.select(this.parentNode).datum().no;
     }
-  });
 }
 
 // return key of record = team no.
@@ -320,6 +322,7 @@ function run(arr, bar, upto, scale) {
              }
          });
     
+    svgTeams.selectAll('.rank').on('click', pinMe);
   
     bar.append('rect')
          .classed('f', d => d.members[upto].gender === 'F')
