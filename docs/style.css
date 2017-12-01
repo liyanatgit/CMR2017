@@ -9,6 +9,18 @@ html, body {
   color: #FFF;
 }
 
+.go-github {
+  height: 32px;
+  width: 32px;
+  display: inline-block;
+  opacity: 0.7;
+  position: fixed;
+  right: 36px;
+  top: 11px;
+  z-index: 1;
+  padding: 3px;
+}
+
 svg {
     box-sizing: border-box;
 }
