@@ -192,7 +192,7 @@ function receiveData(records) {
              .attr('y', 15)
              .text((d, i) => (' ' + ++i + '.').slice(-3));
 
-     stepByStep || setTimeout( () => run(arr, bar, upto, scale), 500);
+    stepByStep || setTimeout( () => run(arr, bar, upto, scale), 500);
     if (upto === -1) {
       upto = 0;
     }
@@ -301,21 +301,17 @@ var timers = [];
 // scale: convert time value in second to width of bar
 function run(arr, bar, upto, scale) {
     arr.sort((a, b)=> mx(a._total[upto]) -  mx(b._total[upto]));
-    var factor = upto > 0 ? 4 : 2; 
+    var factor = upto > 0 ? 6 : 3; // factor = 12;
     var func = {
       step: d => d._step[upto] / factor,
-      gap:  function(d) {
-        
-        var g = (upto === 0 ? 0 : d._total[upto - 1] - fastest);
-        return g;
-      } 
+      gap:  d => (upto === 0 ? 0 : d._total[upto - 1] - fastest)
     };
   
     var fastest = arr.reduce( (p, c) => ((c = upto === 0 ? 0 : c._total[upto - 1]) < p ? c: p), Number.MAX_SAFE_INTEGER);
     var max = arr.reduce( (p, c) => (c =c._step[upto]) > p ? c : p, 0);
 
     max += arr.reduce((p, c) => {
-      c = func.gap(c);
+      c = func.gap(c) * factor;
       return c > p ? c: p;
     }, 0);
     max /= factor;
@@ -346,7 +342,7 @@ function run(arr, bar, upto, scale) {
     bar.select('.result')
          .attr('fill', '#38F')
          .transition()
-         .delay(func.step)
+         .delay(func.gap)
          .text(d => to_time(d._total[upto]))
          .filter(d => !Number.isNaN(d._total[upto]))
          .attr('fill', '#FFF')
